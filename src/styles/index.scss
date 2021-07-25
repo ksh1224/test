@@ -8,6 +8,7 @@ body {
   flex: 1;
   height: 100%;
   margin: 0;
+  overflow: hidden;
 }
 
 #root {
@@ -23,15 +24,12 @@ div {
 
 p {
   margin: 0;
+  display: inline;
 }
 
 input {
   margin: 0;
   border: 0;
-}
-
-input:focus {
-  border: 0.5px solid black;
 }
 
 .flex {
@@ -70,4 +68,15 @@ input:focus {
 
 .scroll {
   overflow: scroll;
+}
+
+@keyframes byeByePoint {
+  from {
+    top: -15px;
+    opacity: 1;
+  }
+  to {
+    top: -60px;
+    opacity: 0;
+  }
 }

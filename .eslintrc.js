@@ -4,9 +4,9 @@ module.exports = {
     browser: true,
     node: true,
   },
-  extends: ['eslint:recommended', "airbnb-base", 'plugin:prettier/recommended'],
+  extends: ['eslint:recommended', 'airbnb-base', 'plugin:prettier/recommended'],
   parser: '@typescript-eslint/parser',
-  plugins: ["@typescript-eslint", 'prettier'],
+  plugins: ['@typescript-eslint', 'prettier'],
   parserOptions: {
     project: './tsconfig.json',
   },
@@ -16,24 +16,21 @@ module.exports = {
     'no-undef': 'off',
     'no-plus': 'off',
     'no-unused-vars': 'off',
-    "import/extensions": [
-      "error",
-      "ignorePackages",
+    'no-param-reassign': ['error', { props: false }],
+    'import/extensions': [
+      'error',
+      'ignorePackages',
       {
-        "ts": "never",
-      }
-   ]
+        ts: 'never',
+      },
+    ],
   },
-  ignorePatterns: [
-    'webpack.config.js',
-    '.eslintrc.js',
-    'public',
-  ],
+  ignorePatterns: ['webpack.config.js', '.eslintrc.js', 'public'],
   settings: {
     'import/resolver': {
       node: {
         moduleDirectory: ['node_modules', 'src/'],
-        extensions: [".ts"]
+        extensions: ['.ts'],
       },
     },
   },

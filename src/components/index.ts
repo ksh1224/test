@@ -1,2 +1,3 @@
-export * from './Input';
-export * from './Quiz';
+export * from './Button';
+export * from './GameInput';
+export * from './SliderWords';

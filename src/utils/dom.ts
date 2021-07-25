@@ -1,6 +1,4 @@
-import { ElementNode, ElementProps, HTMLElementOptions } from 'models';
-
-const attributeExceptions = ['role'];
+import { ElementNode, IElementProps, HTMLElementOptions } from 'types';
 
 function appendText(el: HTMLElement, text: string) {
   const textNode = document.createTextNode(text);
@@ -43,7 +41,7 @@ function setStyles(el: HTMLElement, styles: CSSStyleDeclaration) {
 
 export function elementNode<K extends keyof HTMLElementTagNameMap>(
   tagName: K,
-  props?: ElementProps
+  props?: IElementProps
 ): HTMLElementTagNameMap[K] {
   const { options, children } = props || {};
   const el = document.createElement(tagName);
@@ -57,7 +55,7 @@ export function elementNode<K extends keyof HTMLElementTagNameMap>(
     }
   if (options)
     Object.keys(options).forEach((propName) => {
-      if (propName in el || attributeExceptions.includes(propName)) {
+      if (propName in el) {
         const value = options[propName];
         if (propName === 'style') {
           setStyles(el, value);
@@ -79,14 +77,13 @@ export function createStyles<T>(
   return styles;
 }
 
-export const div = (options?: HTMLElementOptions, children?: ElementNode) => elementNode('div', { children, options });
-export const h1 = (options?: HTMLElementOptions, children?: ElementNode) => elementNode('h1', { children, options });
-export const h2 = (options?: HTMLElementOptions, children?: ElementNode) => elementNode('h2', { children, options });
-export const h3 = (options?: HTMLElementOptions, children?: ElementNode) => elementNode('h3', { children, options });
-export const h4 = (options?: HTMLElementOptions, children?: ElementNode) => elementNode('h4', { children, options });
-export const a = (options?: HTMLElementOptions, children?: ElementNode) => elementNode('a', { children, options });
-export const textarea = (options?: HTMLElementOptions, children?: ElementNode) =>
-  elementNode('textarea', { children, options });
-export const p = (options?: HTMLElementOptions, children?: ElementNode) => elementNode('p', { children, options });
-export const input = (options?: HTMLElementOptions, children?: ElementNode) =>
-  elementNode('input', { children, options });
+export const div = (props?: IElementProps) => elementNode('div', props);
+export const h1 = (props?: IElementProps) => elementNode('h1', props);
+export const h2 = (props?: IElementProps) => elementNode('h2', props);
+export const h3 = (props?: IElementProps) => elementNode('h3', props);
+export const h4 = (props?: IElementProps) => elementNode('h4', props);
+export const a = (props?: IElementProps) => elementNode('a', props);
+export const textarea = (props?: IElementProps) => elementNode('textarea', props);
+export const p = (props?: IElementProps) => elementNode('p', props);
+export const br = (props?: IElementProps) => elementNode('br', props);
+export const input = (props?: IElementProps) => elementNode('input', props);

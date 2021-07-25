@@ -1,7 +1,6 @@
-import { Game } from 'pages';
-import { a, Api, div, _ } from 'utils';
 import './styles/index.scss';
+import { loadHandler, popStateHandler } from 'utils/router';
 
-document.body.appendChild(div({ id: 'root' }));
+loadHandler();
 
-document.getElementById('root').appendChild(Game());
+popStateHandler();

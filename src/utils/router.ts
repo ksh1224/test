@@ -1,35 +1,50 @@
-// function initialRoutes (mode, el) {
-//   renderHTML(el, routes['/'])
+import { Game, Result } from 'pages';
+import { actions, reducer } from 'store';
+import { IQuiz } from 'types';
+import { Api } from './api';
+import { _ } from './common';
 
-//   if (mode === 'history') {
-//     window.onpopstate = () => renderHTML(el, routes[window.location.pathname])
-//   } else {
-//     window.addEventListener('hashchange', () => {
-//       return renderHTML(el, getHashRoute())
-//     })
-//   }
-// }
+const router = {
+  '/': Game,
+  '/result': Result,
+};
 
-// // set browser history
-// function historyRouterPush (pathName, el) {
-//   window.history.pushState({}, pathName, window.location.origin + pathName)
-//   renderHTML(el, routes[pathName])
-// }
+const { dispatcher } = reducer;
 
-// // get hash history route
-// function getHashRoute () {
-//   let route = '/'
+const api = new Api();
 
-//   Object.keys(routes).forEach(hashRoute => {
-//     if (window.location.hash.replace('#', '') === hashRoute.replace('/', '')) {
-//       route = routes[hashRoute]
-//     }
-//   })
+async function init() {
+  await dispatcher(actions.init());
+  const result = await api.get<IQuiz[]>('words');
+  await result.forEach((quiz) => {
+    dispatcher(actions.insertQuiz(quiz));
+  });
+  await dispatcher(actions.initialized());
+}
 
-//   return route
-// }
+export function loadHandler() {
+  window.addEventListener('load', () => {
+    init();
+  });
+}
 
-// // set hash history
-// function hashRouterPush (pathName, el) {
-//   renderHTML(el, getHashRoute())
-// }
+export function popStateHandler() {
+  window.onpopstate = (e) => {
+    const { pathname } = window.location;
+    if (pathname === '/') {
+      init();
+    } else if (pathname === '/result') {
+      dispatcher(actions.endGame());
+    }
+  };
+}
+
+export function push(pathName: keyof typeof router, state?: any) {
+  if (pathName === '/') init();
+  else if (pathName === '/result') dispatcher(actions.endGame());
+  window.history.pushState(state, pathName, window.location.origin + pathName);
+}
+export function resetGame() {
+  init();
+  window.history.replaceState(_, '/', window.location.origin);
+}

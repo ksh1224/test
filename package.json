@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint . --ext ts",
-    "start": "webpack serve --config-name development --env development --progress",
-    "build": "webpack --config-name production --env production"
+    "start": "webpack serve --env development --progress",
+    "build": "webpack --env production"
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
