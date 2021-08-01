@@ -1,3 +1,4 @@
-export * from './Button';
 export * from './GameInput';
-export * from './SliderWords';
+export * from './StartButton';
+export * from './Point';
+export * from './Time';

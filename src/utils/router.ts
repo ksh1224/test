@@ -1,50 +1,43 @@
-import { Game, Result } from 'pages';
-import { actions, reducer } from 'store';
-import { IQuiz } from 'types';
-import { Api } from './api';
 import { _ } from './common';
 
-const router = {
-  '/': Game,
-  '/result': Result,
-};
-
-const { dispatcher } = reducer;
-
-const api = new Api();
-
-async function init() {
-  await dispatcher(actions.init());
-  const result = await api.get<IQuiz[]>('words');
-  await result.forEach((quiz) => {
-    dispatcher(actions.insertQuiz(quiz));
-  });
-  await dispatcher(actions.initialized());
-}
-
-export function loadHandler() {
+export function loadHandler(onLoad?: () => void) {
   window.addEventListener('load', () => {
-    init();
+    if (onLoad) onLoad();
   });
 }
 
-export function popStateHandler() {
+export function popStateHandler({
+  onRootPath,
+  onResultPath,
+}: {
+  onRootPath?: () => void;
+  onResultPath?: () => void;
+}) {
   window.onpopstate = (e) => {
     const { pathname } = window.location;
     if (pathname === '/') {
-      init();
+      if (e.state) window.history.replaceState(undefined, '/', window.location.origin);
+      if (onRootPath) onRootPath();
     } else if (pathname === '/result') {
-      dispatcher(actions.endGame());
+      if (onResultPath) onResultPath();
     }
   };
 }
 
-export function push(pathName: keyof typeof router, state?: any) {
-  if (pathName === '/') init();
-  else if (pathName === '/result') dispatcher(actions.endGame());
+export function pushState({
+  pathName,
+  state,
+  callback,
+}: {
+  pathName: '/' | '/result';
+  state?: any;
+  callback?: () => void;
+}) {
+  if (callback) callback();
   window.history.pushState(state, pathName, window.location.origin + pathName);
 }
-export function resetGame() {
-  init();
+
+export function resetGame(callback: () => void) {
+  if (callback) callback();
   window.history.replaceState(_, '/', window.location.origin);
 }

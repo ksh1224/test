@@ -1,22 +1,25 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable default-case */
-import { Game, Result } from 'pages';
+import { Game, Loading, Result } from 'pages';
 import { IQuiz, IResult } from 'types';
-import { _ } from 'utils';
+import { pushState, _ } from 'utils';
 import { actionType } from './action';
 
 interface IState {
   quizList: IQuiz[];
   resultList: IResult[];
+  state: 'GAME' | 'RESULT';
 }
 
 const initState: IState = {
   quizList: [],
   resultList: [],
+  state: 'GAME',
 };
 
 export const reducer = (() => {
   let store: IState = initState;
+  let rootElement: HTMLElement;
 
   function dispatcher(action: { type: keyof typeof actionType; payload?: any }) {
     switch (action.type) {
@@ -24,9 +27,12 @@ export const reducer = (() => {
         store = {
           quizList: [],
           resultList: [],
+          state: 'GAME',
         };
-        // 로딩 시키기
-        // root.appendChild(new HTMLDivElement());
+        rootElement = document.getElementById('root');
+        if (rootElement.firstChild) {
+          rootElement.replaceChild(Loading(), rootElement.firstChild);
+        } else rootElement.appendChild(Loading());
         break;
       case actionType.INSERT_QUIZ:
         store = {
@@ -44,18 +50,23 @@ export const reducer = (() => {
         store = {
           ...store,
         };
-        const root = document.getElementById('root');
-        root.replaceWith(
-          Game({
-            quizList: store.quizList,
-          })
-        );
-        root.id = 'root';
+        rootElement = document.getElementById('root');
+        if (rootElement) {
+          rootElement.replaceChild(
+            Game({
+              quizList: store.quizList,
+            }),
+            rootElement.firstChild
+          );
+        }
+
         break;
       case actionType.INSERT_RESULT:
         store = {
           ...store,
-          ...(action.payload.result && { resultList: [...store.resultList, action.payload.result] }),
+          ...(action.payload.result && {
+            resultList: [...store.resultList, action.payload.result],
+          }),
         };
         break;
       case actionType.RESET_RESULT:
@@ -67,17 +78,35 @@ export const reducer = (() => {
       case actionType.END_GAME:
         store = {
           ...store,
+          state: 'RESULT',
         };
-        document.getElementById('root').replaceWith(
-          Result({
-            resultList: store.resultList,
-          })
-        );
+        rootElement = document.getElementById('root');
+        if (rootElement) {
+          if (store.resultList.length !== 0)
+            pushState({
+              pathName: '/result',
+              state: {
+                resultList: store.resultList,
+              },
+            });
+          rootElement.replaceChild(Result(), rootElement.firstChild);
+        }
         break;
     }
   }
 
+  function testInfo() {
+    const totalQuizSecond = store.quizList.reduce<number>((acc, { second }) => acc + second, 0);
+    const correctResultListLength = store.resultList.filter(({ correct }) => correct).length;
+    return {
+      totalQuizSecond,
+      correctResultListLength,
+      state: store.state,
+    };
+  }
+
   return {
     dispatcher,
+    testInfo,
   };
 })();

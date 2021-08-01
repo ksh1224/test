@@ -1,4 +1,4 @@
-import { ElementNode, IElementProps, HTMLElementOptions } from 'types';
+import { ElementNode, IElementProps, HTMLElementOptions, IObject } from 'types';
 
 function appendText(el: HTMLElement, text: string) {
   const textNode = document.createTextNode(text);
@@ -71,7 +71,7 @@ export function elementNode<K extends keyof HTMLElementTagNameMap>(
 
 export function createStyles<T>(
   styles: {
-    [P in keyof T]: { [key: string]: any } | CSSStyleDeclaration;
+    [P in keyof T]: IObject | CSSStyleDeclaration;
   }
 ) {
   return styles;
@@ -83,7 +83,6 @@ export const h2 = (props?: IElementProps) => elementNode('h2', props);
 export const h3 = (props?: IElementProps) => elementNode('h3', props);
 export const h4 = (props?: IElementProps) => elementNode('h4', props);
 export const a = (props?: IElementProps) => elementNode('a', props);
-export const textarea = (props?: IElementProps) => elementNode('textarea', props);
-export const p = (props?: IElementProps) => elementNode('p', props);
+export const span = (props?: IElementProps) => elementNode('span', props);
 export const br = (props?: IElementProps) => elementNode('br', props);
 export const input = (props?: IElementProps) => elementNode('input', props);

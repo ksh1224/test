@@ -25,7 +25,7 @@ module.exports = {
       },
     ],
   },
-  ignorePatterns: ['webpack.config.js', '.eslintrc.js', 'public'],
+  ignorePatterns: ['.eslintrc.js', 'public', '*.config.js'],
   settings: {
     'import/resolver': {
       node: {

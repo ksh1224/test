@@ -1,0 +1,62 @@
+import { colors, createStyles } from 'utils';
+
+export const resultStyles = createStyles({
+  container: {
+    display: 'flex',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  quizWrap: {
+    display: 'flex',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  quizTextWrap: {
+    display: 'flex',
+    width: '100%',
+    height: '150px',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: '20px',
+  },
+  title: {
+    display: 'flex',
+    flex: 1,
+    fontSize: '25px',
+    fontWeight: 'bold',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
+  score: {
+    display: 'flex',
+    flex: 1,
+    fontSize: '35px',
+    padding: '20px 0',
+    fontWeight: 'bold',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
+  second: {
+    display: 'flex',
+    flex: 1,
+    fontSize: '20px',
+    fontWeight: 'bold',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
+  button: {
+    cursor: 'pointer',
+    height: '50px',
+    width: '150px',
+    background: colors.main,
+    alignItems: 'center',
+    justifyContent: 'center',
+    color: 'white',
+    margin: 'auto',
+  },
+});
