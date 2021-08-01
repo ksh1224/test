@@ -8,7 +8,7 @@ const styles = createStyles({
     height: '150px',
     flexDirection: 'row',
     left: 0,
-    transitionDuration: '0.5s',
+    transitionDuration: '0.3s',
     transitionProperty: 'left',
   },
   title: {

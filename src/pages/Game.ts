@@ -25,14 +25,14 @@ export function Game(props?: Props) {
   const setShowWrongText = useRandomShowText({ color: colors.red, text: '땡!' });
 
   function nextLevel(result?: { correct: boolean; restSecond: number }) {
+    step += 1;
+    SliderWordsElement.style.left = `-${step * 100}%`;
     if (result) {
       insertResult(result);
       setTime(0);
-      if (step === quizList.length) return endGame();
+      if (step === quizList.length + 1) return endGame();
       if (!result.correct) setPoint(getPoint().detail - 1);
     }
-    step += 1;
-    SliderWordsElement.style.left = `-${step * 100}%`;
   }
 
   const { start, stop } = useTimer({
@@ -46,17 +46,18 @@ export function Game(props?: Props) {
     onTime: (diff) => setTime(diff),
   });
 
-  SliderWordsElement.addEventListener('transitionend', (_e) => {
+  SliderWordsElement.addEventListener('transitionstart', (_e) => {
     start(quizList[step - 1].second);
   });
 
-  if (window.history.state)
+  if (window.history.state) {
+    setIsStart(true);
     setTimeout(() => {
+      nextLevel();
       const el = document.getElementById('gameInput');
       el?.focus();
-      setIsStart(true);
-      nextLevel();
     });
+  }
 
   return div({
     options: { style: gameStyles.container },
@@ -101,9 +102,9 @@ export function Game(props?: Props) {
                   const { detail: isStart } = getIsStart();
                   setIsStart(!isStart);
                   if (!isStart) {
+                    nextLevel();
                     const el = document.getElementById('gameInput');
                     el?.focus();
-                    nextLevel();
                   } else {
                     stop();
                     resetGame(init);

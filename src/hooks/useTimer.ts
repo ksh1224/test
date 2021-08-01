@@ -10,7 +10,7 @@ export function useTimer({
 
   function stop() {
     clearInterval(id);
-    onEnd(Math.ceil(diff / 1000));
+    onEnd(diff / 1000);
     diff = 0;
   }
 
@@ -19,7 +19,7 @@ export function useTimer({
     endDate.setSeconds(endDate.getSeconds() + second);
     id = setInterval(() => {
       diff = endDate.getTime() - new Date().getTime();
-      if (diff <= 0) {
+      if (diff < 0) {
         stop();
       }
       onTime(Math.ceil(diff / 1000));

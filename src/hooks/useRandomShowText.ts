@@ -31,13 +31,12 @@ export function useRandomShowText({ color, text }: Props): (nextState: boolean) 
   let state = false;
   let element = getTextElement({ color, text, state });
   element.id = id;
-  console.log('element', element);
+
   const aaa = document.getElementById('root');
-  console.log('aaa', aaa);
+
   aaa.appendChild(element);
   function setShow(_state: boolean) {
     element = <HTMLParagraphElement>document.getElementById(id);
-    console.log('element2', element);
     if (element) {
       const replaceNode = getTextElement({ color, text, state: _state });
       replaceNode.id = id;

@@ -6,7 +6,6 @@ export function GameInput(
   isStart: CustomEvent<boolean>,
   { onEnter }: { onEnter: (e: string) => void }
 ) {
-  let text = '';
   const [element, setIsStart] = useChangeElement(isStart.detail, (_isStart) =>
     div({
       children: [
@@ -18,16 +17,12 @@ export function GameInput(
               onkeydown: (_e) => {
                 const gameInput = <HTMLInputElement>document.getElementById('gameInput');
                 if (_e.key === 'Enter') {
-                  onEnter(text);
+                  onEnter(gameInput.value);
                   gameInput.value = '';
                   gameInput.focus();
                   return false;
                 }
                 return true;
-              },
-              oninput: (_e: InputEvent & { target: EventTarget & { value: string } }) => {
-                text = _e.target.value;
-                return _e;
               },
             },
           }),
