@@ -60,6 +60,33 @@ export function Game(props?: Props) {
     });
   }
 
+  function enterHandler(e: string) {
+    const text = e.trim();
+    if (text.length > 0) {
+      if (quizList[step - 1].text === text) {
+        setShowCorrectText(true);
+        setTimeout(() => setShowCorrectText(false), 200);
+        stop();
+      } else {
+        setShowWrongText(true);
+        setTimeout(() => setShowWrongText(false), 200);
+      }
+    }
+  }
+
+  function buttonClickHandler() {
+    const { detail: isStart } = getIsStart();
+    setIsStart(!isStart);
+    if (!isStart) {
+      nextLevel();
+      const el = document.getElementById('gameInput');
+      el?.focus();
+    } else {
+      stop();
+      resetGame(init);
+    }
+  }
+
   return div({
     options: { style: gameStyles.container },
     children: [
@@ -84,33 +111,10 @@ export function Game(props?: Props) {
             options: { style: gameStyles.formWrap },
             children: [
               GameInput(getIsStart(), {
-                onEnter: (e) => {
-                  const text = e.trim();
-                  if (text.length > 0) {
-                    if (quizList[step - 1].text === text) {
-                      setShowCorrectText(true);
-                      setTimeout(() => setShowCorrectText(false), 200);
-                      stop();
-                    } else {
-                      setShowWrongText(true);
-                      setTimeout(() => setShowWrongText(false), 200);
-                    }
-                  }
-                },
+                onEnter: enterHandler,
               }),
               StartButton(getIsStart(), {
-                onClick: () => {
-                  const { detail: isStart } = getIsStart();
-                  setIsStart(!isStart);
-                  if (!isStart) {
-                    nextLevel();
-                    const el = document.getElementById('gameInput');
-                    el?.focus();
-                  } else {
-                    stop();
-                    resetGame(init);
-                  }
-                },
+                onClick: buttonClickHandler,
               }),
             ],
           }),
