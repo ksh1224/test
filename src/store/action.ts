@@ -7,6 +7,7 @@ const INITIALIZED = 'INITIALIZED' as const;
 const INSERT_RESULT = 'INSERT_RESULT' as const;
 const RESET_RESULT = 'RESET_RESULT' as const;
 const END_GAME = 'END_GAME' as const;
+const ERROR = 'ERROR' as const;
 
 export const actionType = {
   INIT,
@@ -16,6 +17,7 @@ export const actionType = {
   INSERT_RESULT,
   RESET_RESULT,
   END_GAME,
+  ERROR,
 };
 
 const init = () => ({
@@ -48,6 +50,10 @@ const endGame = () => ({
   type: END_GAME,
 });
 
+const error = () => ({
+  type: ERROR,
+});
+
 export const actions = {
   init,
   insertQuiz,
@@ -56,4 +62,5 @@ export const actions = {
   resetQuiz,
   resetResult,
   endGame,
+  error,
 };

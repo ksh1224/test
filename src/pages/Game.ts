@@ -16,6 +16,7 @@ export function Game(props?: Props) {
   const { quizList } = props;
 
   const { endGame, init, insertResult } = useReducer();
+
   const [getPoint, setPoint] = useEventState(quizList.length);
   const [getTime, setTime] = useEventState(0);
   const [getIsStart, setIsStart] = useEventState(false);
