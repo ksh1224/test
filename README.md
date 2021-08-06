@@ -10,7 +10,7 @@
 
 - [public](./public) : 아웃풋
 - [src](./src) : 소스코드
-  - [__test__](./src/__test__) : 테스트 코드
+  - [\_\_test\_\_'](./src/__test__) : 테스트 코드
   - [components](./src/components) : 페이지 요소
   - [animations](./src/components) : 애니메이션 요소
   - [hooks](./src/hooks) : 재사용 함수
