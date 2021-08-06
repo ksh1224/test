@@ -12,7 +12,7 @@
 - [src](./src) : 소스코드
   - [\_\_test\_\_](./src/__test__) : 테스트 코드
   - [components](./src/components) : 페이지 요소
-  - [animations](./src/components) : 애니메이션 요소
+  - [animations](./src/animations) : 애니메이션 요소
   - [hooks](./src/hooks) : 재사용 함수
   - [pages](./src/pages) : 페이지
   - [store](./src/store) : 글로벌 상태 관리
